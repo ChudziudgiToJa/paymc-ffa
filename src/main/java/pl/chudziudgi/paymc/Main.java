@@ -36,12 +36,9 @@ public class Main extends JavaPlugin {
     public void onEnable() {
 
         AntiLogoutManager antiLogoutManager = new AntiLogoutManager();
-        this.getServer().getPluginManager().registerEvents(new AntiLogoutController(antiLogoutManager, this.protocolManager, this.pluginConfiguration), this);
+        this.getServer().getPluginManager().registerEvents(new AntiLogoutController(antiLogoutManager, this.protocolManager, this.pluginConfiguration, this), this);
         new AntiLogoutTask(antiLogoutManager, this.protocolManager, this);
 
-        this.getServer().getPluginManager().registerEvents(new KitController(this), this);
-
+        this.getServer().getPluginManager().registerEvents(new KitController(), this);
     }
-
-
 }

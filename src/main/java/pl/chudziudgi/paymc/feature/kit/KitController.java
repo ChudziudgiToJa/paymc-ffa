@@ -5,24 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import pl.chudziudgi.paymc.Main;
 
 public class KitController implements Listener {
 
-    private final Main main;
-
-    public KitController(Main main) {
-        this.main = main;
-    }
-
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
-            Player damager = (Player) event.getDamager();
+        if (event.getDamager() instanceof Player damager && event.getEntity() instanceof Player) {
             if (damager.getInventory().getItemInMainHand().getType() == Material.GOLDEN_SWORD) {
                 event.setDamage(0);
             }
@@ -39,12 +32,6 @@ public class KitController implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.spigot().respawn();
-            }
-        }.runTaskLater(this.main, 2L);
         player.getInventory().clear();
         KitManager.giveKit(player);
     }
@@ -53,5 +40,17 @@ public class KitController implements Listener {
     public void onPlayerDead(PlayerDeathEvent event) {
         event.getDrops().clear();
         event.getPlayer().getInventory().clear();
+    }
+
+    @EventHandler
+    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        event.setCancelled(true);
+        event.getEntity().setFoodLevel(20);
+        event.getEntity().setSaturation(20.0f);
+    }
+
+    @EventHandler
+    public void onItemDamage(PlayerItemDamageEvent event) {
+        event.setCancelled(true);
     }
 }

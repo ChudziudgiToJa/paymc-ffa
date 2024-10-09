@@ -13,6 +13,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import pl.chudziudgi.paymc.Main;
 import pl.chudziudgi.paymc.configuration.PluginConfiguration;
 import pl.chudziudgi.paymc.util.MessageUtil;
 import pl.chudziudgi.paymc.util.TimeType;
@@ -22,11 +24,13 @@ public class AntiLogoutController implements Listener {
     private final AntiLogoutManager antiLogoutManager;
     private final ProtocolManager protocolManager;
     private final PluginConfiguration pluginConfiguration;
+    private final Main main;
 
-    public AntiLogoutController(AntiLogoutManager antiLogoutManager, ProtocolManager protocolManager, PluginConfiguration pluginConfiguration) {
+    public AntiLogoutController(AntiLogoutManager antiLogoutManager, ProtocolManager protocolManager, PluginConfiguration pluginConfiguration, Main main) {
         this.antiLogoutManager = antiLogoutManager;
         this.protocolManager = protocolManager;
         this.pluginConfiguration = pluginConfiguration;
+        this.main = main;
     }
 
     @EventHandler
@@ -91,16 +95,22 @@ public class AntiLogoutController implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player deadPlayer = event.getEntity();
         Player killer = deadPlayer.getKiller();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                deadPlayer.spigot().respawn();
+            }
+        }.runTaskLater(this.main, 2L);
         if (killer != null) {
             MessageUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", this.protocolManager);
             Bukkit.getOnlinePlayers().forEach(player -> {
-                MessageUtil.sendMessage(player, "&cgracz " + killer.getName() + " zabił " + deadPlayer.getName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤");
+                MessageUtil.sendMessage(player, "&cgracz " + killer.getName() + " zabił " + deadPlayer.getName() + " na &f" + String.format("%.1f", killer.getHealth()) + " &4❤");
             });
             killer.setHealth(20L);
-            this.antiLogoutManager.removeCombat(this.antiLogoutManager.getCombat(killer));
-            return;
+            if (this.antiLogoutManager.inCombat(killer)) {
+                this.antiLogoutManager.removeCombat(this.antiLogoutManager.getCombat(killer));
+            }
         }
-        MessageUtil.sendTitle(deadPlayer, "", "&cZginąłeś! ", this.protocolManager);
     }
 }
 
