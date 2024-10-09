@@ -42,7 +42,7 @@ public class AntiLogoutController implements Listener {
         if (antiLogoutManager.inCombat(player)) {
             player.setHealth(0.0D);
             Bukkit.getOnlinePlayers().forEach(all -> {
-                MessageUtil.sendMessage(all, "&cGracz " + player.getName() + " wylogował się podczas walki.", this.protocolManager);
+                MessageUtil.sendMessage(all, "&cGracz " + player.getName() + " wylogował się podczas walki.");
             });
         }
     }
@@ -94,9 +94,10 @@ public class AntiLogoutController implements Listener {
         if (killer != null) {
             MessageUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", this.protocolManager);
             Bukkit.getOnlinePlayers().forEach(player -> {
-                MessageUtil.sendMessage(player, "&cgracz " + killer.getName() + " zabił " + deadPlayer.getName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", this.protocolManager);
+                MessageUtil.sendMessage(player, "&cgracz " + killer.getName() + " zabił " + deadPlayer.getName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤");
             });
             killer.setHealth(20L);
+            this.antiLogoutManager.removeCombat(this.antiLogoutManager.getCombat(killer));
             return;
         }
         MessageUtil.sendTitle(deadPlayer, "", "&cZginąłeś! ", this.protocolManager);
