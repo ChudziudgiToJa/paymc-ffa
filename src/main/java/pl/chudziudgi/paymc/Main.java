@@ -11,6 +11,7 @@ import pl.chudziudgi.paymc.feature.antilogout.AntiLogoutController;
 import pl.chudziudgi.paymc.feature.antilogout.AntiLogoutManager;
 import pl.chudziudgi.paymc.feature.antilogout.AntiLogoutTask;
 import pl.chudziudgi.paymc.feature.kit.KitController;
+import pl.chudziudgi.paymc.feature.spawn.SpawnController;
 
 import java.io.File;
 
@@ -34,11 +35,12 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         AntiLogoutManager antiLogoutManager = new AntiLogoutManager();
         this.getServer().getPluginManager().registerEvents(new AntiLogoutController(antiLogoutManager, this.protocolManager, this.pluginConfiguration, this), this);
         new AntiLogoutTask(antiLogoutManager, this.protocolManager, this);
 
         this.getServer().getPluginManager().registerEvents(new KitController(), this);
+
+        this.getServer().getPluginManager().registerEvents(new SpawnController(), this);
     }
 }

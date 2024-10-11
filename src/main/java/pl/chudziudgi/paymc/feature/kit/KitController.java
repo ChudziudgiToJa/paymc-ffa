@@ -25,6 +25,9 @@ public class KitController implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        if (player.isDead()) {
+            player.spigot().respawn();
+        }
         player.getInventory().clear();
         KitManager.giveKit(player);
     }
@@ -45,8 +48,6 @@ public class KitController implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         event.setCancelled(true);
-        event.getEntity().setFoodLevel(20);
-        event.getEntity().setSaturation(20.0f);
     }
 
     @EventHandler
