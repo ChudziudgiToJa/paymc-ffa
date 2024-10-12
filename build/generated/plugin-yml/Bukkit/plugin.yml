@@ -1,0 +1,9 @@
+name: paymc-ffa
+version: 1.0-SNAPSHOT
+main: pl.chudziudgi.paymc.Main
+authors:
+  - Chudziudgi
+depend:
+  - ProtocolLib
+prefix: paymc-ffa
+api-version: "1.18"

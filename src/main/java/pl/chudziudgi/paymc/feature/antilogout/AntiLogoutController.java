@@ -102,7 +102,7 @@ public class AntiLogoutController implements Listener {
             }
         }.runTaskLater(this.main, 2L);
         if (killer != null) {
-            MessageUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", this.protocolManager);
+            MessageUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", this.protocolManager);
             Bukkit.getOnlinePlayers().forEach(player -> {
                 MessageUtil.sendMessage(player, "&cgracz " + killer.getName() + " zabił " + deadPlayer.getName() + " na &f" + String.format("%.1f", killer.getHealth()) + " &4❤");
             });

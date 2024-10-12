@@ -1,6 +1,6 @@
 package pl.chudziudgi.paymc.feature.spawn;
 
-import io.papermc.paper.event.block.BlockBreakBlockEvent;
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -9,10 +9,17 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.TimeSkipEvent;
 
 public class SpawnController implements Listener {
+
+    private final SpawnManager spawnManager;
+
+    public SpawnController(SpawnManager spawnManager) {
+        this.spawnManager = spawnManager;
+    }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
@@ -60,5 +67,11 @@ public class SpawnController implements Listener {
     public void onDrop(PlayerDropItemEvent event) {
         if (event.getPlayer().hasPermission("ffa.spawn.drop")) return;
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        event.getPlayer().setGameMode(GameMode.ADVENTURE);
+        this.spawnManager.teleport(event.getPlayer());
     }
 }
