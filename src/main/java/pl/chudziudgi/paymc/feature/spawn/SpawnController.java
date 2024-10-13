@@ -7,9 +7,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.TimeSkipEvent;
 
@@ -69,9 +71,24 @@ public class SpawnController implements Listener {
         event.setCancelled(true);
     }
 
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        event.setJoinMessage(null);
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
+        event.getPlayer().setHealth(20L);
         this.spawnManager.teleport(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onDead(PlayerDeathEvent event) {
+        event.setDeathMessage(null);
+        this.spawnManager.teleport(event.getPlayer());
+
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        event.setQuitMessage(null);
     }
 }

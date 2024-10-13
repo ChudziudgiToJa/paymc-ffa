@@ -7,6 +7,7 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.paymc.feature.privatemessage.PrivateMessageManager;
+import pl.chudziudgi.paymc.util.MessageUtil;
 
 import java.util.UUID;
 
@@ -29,8 +30,8 @@ public class PrivateMessageCommand {
         UUID senderUUID = playerSender.getUniqueId();
         UUID targetUUID = target.getUniqueId();
 
-        target.sendMessage("Od " + playerSender.getName() + ": " + message);
-        playerSender.sendMessage("Do " + target.getName() + ": " + message);
+        MessageUtil.sendMessage(target, "&d&lMSG &8| &7Od &7" + playerSender.getName() + " –› &f" + message);
+        MessageUtil.sendMessage(playerSender, "&d&lMSG &8| &7Do &7" + target.getName() + " ‹– &f" + message);
 
         privateMessageManager.setLastSender(targetUUID, senderUUID);
     }

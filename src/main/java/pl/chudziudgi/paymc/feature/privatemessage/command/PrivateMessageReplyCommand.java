@@ -3,10 +3,12 @@ package pl.chudziudgi.paymc.feature.privatemessage.command;
 import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
+import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.paymc.feature.privatemessage.PrivateMessageManager;
+import pl.chudziudgi.paymc.util.MessageUtil;
 
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ public class PrivateMessageReplyCommand {
         this.privateMessageManager = privateMessageManager;
     }
 
+    @Execute
     public void execute(@Context CommandSender sender, @Arg String message) {
         if (!(sender instanceof Player playerSender)) {
             sender.sendMessage("Tylko gracze mogą odpisywać.");
@@ -40,8 +43,8 @@ public class PrivateMessageReplyCommand {
             return;
         }
 
-        targetPlayer.sendMessage("Od " + playerSender.getName() + ": " + message);
-        playerSender.sendMessage("Do " + targetPlayer.getName() + ": " + message);
+        MessageUtil.sendMessage(targetPlayer, "&d&lMSG &8| &7Od &7" + playerSender.getName() + " –› &f" + message);
+        MessageUtil.sendMessage(playerSender, "&d&lMSG &8| &7Do &7" + targetPlayer.getName() + " ‹– &f" + message);
 
         this.privateMessageManager.setLastSender(targetUUID, senderUUID);
     }
