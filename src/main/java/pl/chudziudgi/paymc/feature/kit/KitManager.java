@@ -17,5 +17,6 @@ public class KitManager {
 
         inventory.setItem(0, new ItemBuilder(Material.DIAMOND_SWORD).setTitle("&8Miecz: &3klasyczny").build());
         inventory.setItem(1, new ItemBuilder(Material.GOLDEN_SWORD).setTitle("&8Miecz: &3bez obrażeń").build());
+        inventory.setItem(2, new ItemBuilder(Material.IRON_SWORD).setTitle("&8Miecz: &3bez krytow").build());
     }
 }

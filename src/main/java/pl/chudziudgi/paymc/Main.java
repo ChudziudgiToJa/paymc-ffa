@@ -20,6 +20,7 @@ import pl.chudziudgi.paymc.feature.privatemessage.command.PrivateMessageReplyCom
 import pl.chudziudgi.paymc.feature.spawn.SpawnCommand;
 import pl.chudziudgi.paymc.feature.spawn.SpawnController;
 import pl.chudziudgi.paymc.feature.spawn.SpawnManager;
+import pl.chudziudgi.paymc.feature.spawn.VoidTask;
 
 import java.io.File;
 
@@ -60,5 +61,7 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new KitController(), this);
 
         this.getServer().getPluginManager().registerEvents(new SpawnController(spawnManager), this);
+
+        new VoidTask(this);
     }
 }

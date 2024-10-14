@@ -33,6 +33,15 @@ public class KitController implements Listener {
     }
 
     @EventHandler
+    public void onPlayerHit(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player) {
+            if (player.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD) {
+                event.setDamage(6.0);
+            }
+        }
+    }
+
+    @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         player.getInventory().clear();
