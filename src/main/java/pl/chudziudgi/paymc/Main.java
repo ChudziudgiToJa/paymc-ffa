@@ -53,15 +53,11 @@ public class Main extends JavaPlugin {
                         new SpawnCommand(this.protocolManager, spawnManager)
                 )
                 .build();
-
         AntiLogoutManager antiLogoutManager = new AntiLogoutManager();
-        this.getServer().getPluginManager().registerEvents(new AntiLogoutController(antiLogoutManager, this.protocolManager, this.pluginConfiguration, this), this);
+        this.getServer().getPluginManager().registerEvents(new AntiLogoutController(antiLogoutManager, this.protocolManager, this.pluginConfiguration,spawnManager, this), this);
         new AntiLogoutTask(antiLogoutManager, this.protocolManager, this);
-
         this.getServer().getPluginManager().registerEvents(new KitController(spawnManager), this);
-
         this.getServer().getPluginManager().registerEvents(new SpawnController(spawnManager), this);
-
         new VoidTask(this);
     }
 }

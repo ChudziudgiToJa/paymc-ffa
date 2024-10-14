@@ -15,10 +15,9 @@ public class SpawnManager {
     public void teleport(Player player) {
         int randomX = random.nextInt(41) - 20;
         int randomZ = random.nextInt(41) - 20;
-        Location teleportLocation = new Location(Bukkit.getWorlds().get(0), randomX, 80, randomZ);
+        Location teleportLocation = new Location(Bukkit.getWorlds().get(0), randomX, 90, randomZ);
         player.teleport(teleportLocation);
-
-        PotionEffect levitation = new PotionEffect(PotionEffectType.SLOW_FALLING, 60, 0);
+        PotionEffect levitation = new PotionEffect(PotionEffectType.SLOW_FALLING, 100, 0);
         player.addPotionEffect(levitation);
     }
 }

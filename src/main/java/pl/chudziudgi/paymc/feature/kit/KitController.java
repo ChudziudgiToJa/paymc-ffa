@@ -35,7 +35,6 @@ public class KitController implements Listener {
         if (player.isDead()) {
             player.spigot().respawn();
         }
-        this.spawnManager.teleport(event.getPlayer());
         player.getInventory().clear();
         KitManager.giveKit(player);
     }

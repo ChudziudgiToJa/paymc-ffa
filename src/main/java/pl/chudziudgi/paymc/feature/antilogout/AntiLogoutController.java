@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.paymc.Main;
 import pl.chudziudgi.paymc.configuration.PluginConfiguration;
+import pl.chudziudgi.paymc.feature.spawn.SpawnManager;
 import pl.chudziudgi.paymc.util.MessageUtil;
 import pl.chudziudgi.paymc.util.TimeType;
 
@@ -24,12 +25,14 @@ public class AntiLogoutController implements Listener {
     private final AntiLogoutManager antiLogoutManager;
     private final ProtocolManager protocolManager;
     private final PluginConfiguration pluginConfiguration;
+    private final SpawnManager spawnManager;
     private final Main main;
 
-    public AntiLogoutController(AntiLogoutManager antiLogoutManager, ProtocolManager protocolManager, PluginConfiguration pluginConfiguration, Main main) {
+    public AntiLogoutController(AntiLogoutManager antiLogoutManager, ProtocolManager protocolManager, PluginConfiguration pluginConfiguration, SpawnManager spawnManager, Main main) {
         this.antiLogoutManager = antiLogoutManager;
         this.protocolManager = protocolManager;
         this.pluginConfiguration = pluginConfiguration;
+        this.spawnManager = spawnManager;
         this.main = main;
     }
 
@@ -99,6 +102,7 @@ public class AntiLogoutController implements Listener {
             @Override
             public void run() {
                 deadPlayer.spigot().respawn();
+                spawnManager.teleport(deadPlayer);
             }
         }.runTaskLater(this.main, 2L);
         if (killer != null) {
