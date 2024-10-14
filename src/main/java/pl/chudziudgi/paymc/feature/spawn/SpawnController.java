@@ -83,8 +83,6 @@ public class SpawnController implements Listener {
     @EventHandler
     public void onDead(PlayerDeathEvent event) {
         event.setDeathMessage(null);
-        this.spawnManager.teleport(event.getPlayer());
-
     }
 
     @EventHandler

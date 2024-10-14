@@ -10,8 +10,15 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import pl.chudziudgi.paymc.feature.spawn.SpawnManager;
 
 public class KitController implements Listener {
+
+    private final SpawnManager spawnManager;
+
+    public KitController(SpawnManager spawnManager) {
+        this.spawnManager = spawnManager;
+    }
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
@@ -28,6 +35,7 @@ public class KitController implements Listener {
         if (player.isDead()) {
             player.spigot().respawn();
         }
+        this.spawnManager.teleport(event.getPlayer());
         player.getInventory().clear();
         KitManager.giveKit(player);
     }

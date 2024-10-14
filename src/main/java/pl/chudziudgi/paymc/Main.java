@@ -58,7 +58,7 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new AntiLogoutController(antiLogoutManager, this.protocolManager, this.pluginConfiguration, this), this);
         new AntiLogoutTask(antiLogoutManager, this.protocolManager, this);
 
-        this.getServer().getPluginManager().registerEvents(new KitController(), this);
+        this.getServer().getPluginManager().registerEvents(new KitController(spawnManager), this);
 
         this.getServer().getPluginManager().registerEvents(new SpawnController(spawnManager), this);
 
