@@ -4,11 +4,13 @@ import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
+import dev.rollczi.litecommands.annotations.quoted.Quoted;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.paymc.feature.privatemessage.PrivateMessageManager;
 import pl.chudziudgi.paymc.util.MessageUtil;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Command(name = "msg")
@@ -21,7 +23,11 @@ public class PrivateMessageCommand {
     }
 
     @Execute
-    public void execute(@Context CommandSender sender, @Arg Player target, @Arg String message) {
+    public void execute(
+            @Context CommandSender sender,
+            @Arg Player target,
+            @Arg String[] message
+            ) {
         if (!(sender instanceof Player playerSender)) {
             sender.sendMessage("Tylko gracze mogą wysyłać prywatne wiadomości.");
             return;

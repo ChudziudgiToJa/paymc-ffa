@@ -1,6 +1,8 @@
 package pl.chudziudgi.paymc.feature.kit;
 
+
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +15,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import pl.chudziudgi.paymc.feature.spawn.SpawnManager;
 
 public class KitController implements Listener {
-
     private final SpawnManager spawnManager;
 
     public KitController(SpawnManager spawnManager) {
@@ -22,29 +23,31 @@ public class KitController implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player damager && event.getEntity() instanceof Player) {
-            if (damager.getInventory().getItemInMainHand().getType() == Material.GOLDEN_SWORD) {
-                event.setDamage(0);
-            }
+        Entity entity = event.getDamager();
+        if (entity instanceof Player) {
+            Player damager = (Player)entity;
+            if (event.getEntity() instanceof Player &&
+                    damager.getInventory().getItemInMainHand().getType() == Material.GOLDEN_SWORD)
+                event.setDamage(0.0D);
         }
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (player.isDead()) {
+        if (player.isDead())
             player.spigot().respawn();
-        }
         player.getInventory().clear();
         KitManager.giveKit(player);
     }
 
     @EventHandler
     public void onPlayerHit(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player player) {
-            if (player.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD) {
-                event.setDamage(6.0);
-            }
+        Entity entity = event.getDamager();
+        if (entity instanceof Player) {
+            Player player = (Player)entity;
+            if (player.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD)
+                event.setDamage(6.0D);
         }
     }
 

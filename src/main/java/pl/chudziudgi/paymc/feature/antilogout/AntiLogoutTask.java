@@ -30,6 +30,7 @@ public class AntiLogoutTask extends BukkitRunnable {
                     if (antiLogout.getLeftTime() < System.currentTimeMillis()) {
                         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 10 ,10);
                         antiLogoutManager.removeCombat(antiLogout);
+                        MessageUtil.sendActionBar(antiLogout.getPlayer(), "&9⌚ Anti logout&8: &akoniec", this.protocolManager);
                     }
                 }
             }

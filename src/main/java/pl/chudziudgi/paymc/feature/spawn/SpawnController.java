@@ -16,7 +16,6 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.TimeSkipEvent;
 
 public class SpawnController implements Listener {
-
     private final SpawnManager spawnManager;
 
     public SpawnController(SpawnManager spawnManager) {
@@ -25,32 +24,27 @@ public class SpawnController implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (!event.getPlayer().hasPermission("ffa.spawn.break")) {
+        if (!event.getPlayer().hasPermission("ffa.spawn.break"))
             event.setCancelled(true);
-        }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (!event.getPlayer().hasPermission("ffa.spawn.place")) {
+        if (!event.getPlayer().hasPermission("ffa.spawn.place"))
             event.setCancelled(true);
-        }
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            if (!event.getPlayer().hasPermission("ffa.spawn.interact")) {
-                event.setCancelled(true);
-            }
-        }
+        if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK) &&
+                !event.getPlayer().hasPermission("ffa.spawn.interact"))
+            event.setCancelled(true);
     }
 
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent event) {
-        if (event.toWeatherState()) {
+        if (event.toWeatherState())
             event.setCancelled(true);
-        }
     }
 
     @EventHandler
@@ -60,23 +54,22 @@ public class SpawnController implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL)
             event.setCancelled(true);
-        }
     }
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
-        if (event.getPlayer().hasPermission("ffa.spawn.drop")) return;
+        if (event.getPlayer().hasPermission("ffa.spawn.drop"))
+            return;
         event.setCancelled(true);
     }
-
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
-        event.getPlayer().setHealth(20L);
+        event.getPlayer().setHealth(20.0D);
         this.spawnManager.teleport(event.getPlayer());
     }
 

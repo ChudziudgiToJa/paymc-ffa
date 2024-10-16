@@ -104,7 +104,7 @@ public class AntiLogoutController implements Listener {
                 deadPlayer.spigot().respawn();
                 spawnManager.teleport(deadPlayer);
             }
-        }.runTaskLater(this.main, 2L);
+        }.runTaskLater(this.main, 1L);
         if (killer != null) {
             MessageUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", this.protocolManager);
             Bukkit.getOnlinePlayers().forEach(player -> {

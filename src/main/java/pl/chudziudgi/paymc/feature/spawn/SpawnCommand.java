@@ -11,8 +11,8 @@ import pl.chudziudgi.paymc.util.MessageUtil;
 
 @Command(name = "spawn")
 public class SpawnCommand {
-
     private final ProtocolManager protocolManager;
+
     private final SpawnManager spawnManager;
 
     public SpawnCommand(ProtocolManager protocolManager, SpawnManager spawnManager) {
@@ -22,11 +22,13 @@ public class SpawnCommand {
 
     @Execute
     void execute(@Context CommandSender commandSender, @OptionalArg Player target) {
-        if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage("Tylko gracze mogą użyć /spawn.");
+        Player player;
+        if (commandSender instanceof Player) {
+            player = (Player)commandSender;
+        } else {
+            commandSender.sendMessage("Tylko gracze mogu/spawn.");
             return;
         }
-
         if (target == null) {
             this.spawnManager.teleport(player);
             MessageUtil.sendTitle(player, "", "&aTeleportacja na spawn", this.protocolManager);
@@ -36,8 +38,7 @@ public class SpawnCommand {
                 return;
             }
             this.spawnManager.teleport(target);
-            MessageUtil.sendMessage(player, "&aGracz " + target.getName() + " został teleportowany na spawn.");
+            MessageUtil.sendMessage(player, "&aGracz " + target.getName() + " zostateleportowany na spawn.");
         }
     }
 }
-

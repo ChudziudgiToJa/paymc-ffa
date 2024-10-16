@@ -10,6 +10,7 @@ repositories {
     maven("https://repo.dmulloy2.net/repository/public/")
     maven("https://repo.panda-lang.org/releases")
     maven("https://storehouse.okaeri.eu/repository/maven-public/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
@@ -29,6 +30,8 @@ dependencies {
     val okaeriConfigsVersion = "5.0.3"
     implementation("eu.okaeri:okaeri-configs-serdes-bukkit:${okaeriConfigsVersion}")
     implementation("eu.okaeri:okaeri-configs-yaml-bukkit:${okaeriConfigsVersion}")
+
+    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 bukkit {
