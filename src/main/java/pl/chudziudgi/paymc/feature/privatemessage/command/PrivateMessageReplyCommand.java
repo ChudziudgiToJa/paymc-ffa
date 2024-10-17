@@ -24,12 +24,13 @@ public class PrivateMessageReplyCommand {
     }
 
     @Execute
-    public void execute(@Context CommandSender sender, @Arg String[] message) {
+    public void execute(@Context CommandSender sender, @Arg String[] args) {
         if (!(sender instanceof Player playerSender)) {
             sender.sendMessage("Tylko gracze mogą odpisywać.");
             return;
         }
 
+        String message = String.join(" ", args);
         UUID senderUUID = playerSender.getUniqueId();
 
         if (!this.privateMessageManager.hasLastSender(senderUUID)) {
@@ -39,6 +40,11 @@ public class PrivateMessageReplyCommand {
 
         UUID targetUUID = this.privateMessageManager.getLastSender(senderUUID);
         Player targetPlayer = Bukkit.getPlayer(targetUUID);
+
+        if (targetUUID.equals(senderUUID)) {
+            MessageUtil.sendMessage(playerSender, "&7Nie możesz wysyłać wiadomości sam do siebie.");
+            return;
+        }
 
         if (targetPlayer == null || !targetPlayer.isOnline()) {
             playerSender.sendMessage("Gracz, do którego próbujesz odpisać, nie jest online.");

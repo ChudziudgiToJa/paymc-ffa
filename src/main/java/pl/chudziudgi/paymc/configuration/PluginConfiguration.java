@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PluginConfiguration extends OkaeriConfig {
     public List<String> allowCommandsInAntiLogout = List.of("msg");
-    public double knock = 1.5;
+    public double knock = 0.05;
 
     public ChatSettings chatSettings = new ChatSettings();
 

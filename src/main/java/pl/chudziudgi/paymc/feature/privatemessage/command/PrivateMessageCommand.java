@@ -26,15 +26,21 @@ public class PrivateMessageCommand {
     public void execute(
             @Context CommandSender sender,
             @Arg Player target,
-            @Arg String[] message
+            @Arg String[] args
             ) {
         if (!(sender instanceof Player playerSender)) {
             sender.sendMessage("Tylko gracze mogą wysyłać prywatne wiadomości.");
             return;
         }
 
+        String message = String.join(" ", args);
         UUID senderUUID = playerSender.getUniqueId();
         UUID targetUUID = target.getUniqueId();
+
+        if (targetUUID.equals(senderUUID)) {
+            MessageUtil.sendMessage(playerSender, "&7Nie możesz wysyłać wiadomości sam do siebie.");
+            return;
+        }
 
         MessageUtil.sendMessage(target, "&d&lMSG &8| &7Od &7" + playerSender.getName() + " –› &f" + message);
         MessageUtil.sendMessage(playerSender, "&d&lMSG &8| &7Do &7" + target.getName() + " ‹– &f" + message);

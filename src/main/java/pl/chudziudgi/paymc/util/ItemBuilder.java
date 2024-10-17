@@ -47,6 +47,17 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder hide(final boolean is) {
+        final ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
+        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
     public ItemStack build() {
         return itemStack;
     }

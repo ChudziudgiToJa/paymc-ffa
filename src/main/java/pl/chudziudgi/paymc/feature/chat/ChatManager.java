@@ -38,7 +38,7 @@ public class ChatManager {
     public String getFormattedMessage(Player player, String message) {
         String chatFormat = this.config.chatSettings.chatFormat.replace("{PLAYER}", player.getName());
         chatFormat = PlaceholderAPI.setPlaceholders(player, chatFormat);
-        return chatFormat + chatFormat;
+        return chatFormat + message;
     }
 
     public void toggleChat() {
