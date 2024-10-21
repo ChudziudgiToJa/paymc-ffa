@@ -34,6 +34,11 @@ public class PrivateMessageCommand {
             return;
         }
 
+        if (target == null) {
+            MessageUtil.sendMessage(playerSender, "&cPodaj gracza do którego chcesz napisać");
+            return;
+        }
+
         String message = String.join(" ", args);
 
         if (message.isBlank() || message.isEmpty()) {
