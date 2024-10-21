@@ -33,26 +33,38 @@ public class PrivateMessageReplyCommand {
         String message = String.join(" ", args);
         UUID senderUUID = playerSender.getUniqueId();
 
+        if (message.isBlank() || message.isEmpty()) {
+            MessageUtil.sendMessage(playerSender, "&cWiadomość nie może być pusta.");
+            return;
+        }
+
+
         if (!this.privateMessageManager.hasLastSender(senderUUID)) {
             playerSender.sendMessage("Nie masz do kogo odpisać.");
             return;
         }
 
         UUID targetUUID = this.privateMessageManager.getLastSender(senderUUID);
-        Player targetPlayer = Bukkit.getPlayer(targetUUID);
+        Player target = Bukkit.getPlayer(targetUUID);
 
         if (targetUUID.equals(senderUUID)) {
             MessageUtil.sendMessage(playerSender, "&7Nie możesz wysyłać wiadomości sam do siebie.");
             return;
         }
 
-        if (targetPlayer == null || !targetPlayer.isOnline()) {
+        if (target == null || !target.isOnline()) {
             playerSender.sendMessage("Gracz, do którego próbujesz odpisać, nie jest online.");
             return;
         }
 
-        MessageUtil.sendMessage(targetPlayer, "&d&lMSG &8| &7Od &7" + playerSender.getName() + " –› &f" + message);
-        MessageUtil.sendMessage(playerSender, "&d&lMSG &8| &7Do &7" + targetPlayer.getName() + " ‹– &f" + message);
+        MessageUtil.sendMessage(playerSender, "&d&lMSG &8| &7ty &8–› &7" + target.getName() + "&f " + message);
+        MessageUtil.sendMessage(target, "&d&lMSG &8| &7" + playerSender.getName() + "&8 –› &7ty &f" + message);
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (player.hasPermission("ffa.msg.spy")) {
+                MessageUtil.sendMessage(player, "&6&lSPY &8| &7" + playerSender.getName() + "&8 –› &7" + target.getName() + " &f" + message);
+            }
+        });
 
         this.privateMessageManager.setLastSender(targetUUID, senderUUID);
     }

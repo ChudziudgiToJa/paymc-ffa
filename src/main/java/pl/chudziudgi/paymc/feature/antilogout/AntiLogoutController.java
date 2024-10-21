@@ -84,6 +84,12 @@ public class AntiLogoutController implements Listener {
         if (damager instanceof Player playerDamager && entity != damager) {
             Player playerEntity = (Player) entity;
 
+            if (playerEntity.getPing() <= 81 || playerDamager.getPing() <= 81) {
+                MessageUtil.sendTitle(playerDamager, "&4anty lag", "&cgracz ma wysoki ping &8(max 80ms)", this.protocolManager);
+                event.setCancelled(true);
+                return;
+            }
+
             if (!playerEntity.hasPermission("ffa.antilogout.admin")) {
                 antiLogoutManager.createCombat(playerEntity, TimeType.SECOND, 30);
             }
